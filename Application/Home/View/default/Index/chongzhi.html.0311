@@ -1,0 +1,271 @@
+<extend name="Base/common"/>
+
+<block name="body">
+	<style>
+	.hidden{display:none}
+	</style>
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/home.css"/>
+    <script src="__JS__/build/mediaelement-and-player.min.js"></script>
+    <div style="height:770px">
+    	<php>if(($message!=null)&&(is_login()>0)&&($message!="")&&($message[0]!=null)){</php>
+	        <div class="alert with-icon alert-danger">
+	            <i class="icon-remove-sign"></i>
+	
+	            <div class="content">{$message}</div>
+	        </div>
+        <php>}</php>
+         <php>
+         	if(is_login()>0){
+         		//用户信息
+         		$user_info = query_user(array('avatar64', 'nickname','email', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link', 'signature'), get_uid());
+         		//时间 招呼语
+         		$welcome_time =intval(date("H"));
+         		if(12>$welcome_time&&￥welcome_time>6){
+         			$welcome_time = "上午好:";
+         		}elseif(18>$welcome_time&&$welcome_time>12){
+         			$welcome_time = "下午好:";
+         		}else{
+         			$welcome_time = "晚上好:";
+         		}
+         		$currentvpn=D('Common/Radcheck')->userop(get_uid());
+         		if($currentvpn=='=='){
+         			$currentvpn='可用';
+         		}else{
+         			$currentvpn='不可用';
+         		}
+         		$message=null;
+         		$time=D('Common/Userrad')->where(array('user_id'=>get_uid()))->getField('expire_time');
+         		if($time==null){
+         			$message = '您是新注册用户';	
+         		}else{
+         			$expire=date('Y-m-d H:i:s',$time);
+         			$now = time();
+         			if($time<$now){
+         				$message ='已经于'.$expire.'到期';
+         			}else{
+         				$message ='到期时间为：'.$expire;
+         			}
+         		}
+         		
+         		
+         		
+         </php>
+
+    	<div class="row" style="margin-right: -10px;margin-left: -10px;">
+    		<div class="col-md-2 col-xs-2">
+	    		<a  href="{$user_info.space_url}" title="">
+	        		<img src="{$user_info.avatar64}" class="avatar-img img-responsive top_img"/>
+	       		</a>
+    		</div>
+    		<div class="col-md-10 col-xs-10">
+    			<div class="col-md-6 col-xs-6" style="height:60px">
+    				<p style="font-size:20px;display:inline;bottom:0;position:absolute">{$welcome_time}{$user_info.email}</p>
+    			</div>
+    			<div class="col-md-6 col-xs-6" style="height:60px">
+    			<p style="font-size:20px;display:inline;bottom:0;position:absolute">{$message}</p>
+    			</div>
+    		</div>
+    	</div>
+    	<!--  
+    	<div class="row" style="margin-right: -10px;margin-left: -10px;margin-top:50px;margin-bottom:20px">
+    		<div class="col-md-4 col-xs-6" style="height:200px;width:600px">
+    		
+    		<ul id="myTab" class="nav nav-tabs">
+			  <li class="active" style="width:250px;text-align:center"><a href="###" id='zfbtab' data-target="#tab2Content1" data-toggle="tab">支付宝充值</a></li>
+			  <li style="width:250px;text-align:center"><a href="###" id='wxtab' data-target="#tab2Content2" data-toggle="tab">微信充值</a></li>
+			</ul>
+			<div class="tab-content">
+			  <div class="tab-pane fade active in" id="tab2Content1">
+			   	<form action="{:U('Pay/doalipay')}" method="post" style="height:280px;text-align:center">
+					<label style="margin-top:60px;margin-right:18px"><input  name="costpattern" type="radio" value="zfb_1" checked="checked"/>充值1个月 </label> 
+					<label style="margin-right:18px"><input  name="costpattern" type="radio" value="zfb_6" />充值6个月</label> 
+					<label style="margin-right:18px"><input name="costpattern" type="radio" value="zfb_12" />充值1年</label> 
+					<br>
+					<input style="margin-top:30px;width:100px;height:40px;background-color:rgba(10, 103, 251, 0.6);color:#fff;border-radius:4px;border-color: rgba(10, 103, 251, 0);" type="submit"  value ="确认支付">
+				</form>
+			  </div>
+			  <div class="tab-pane fade" id="tab2Content2">
+			  	<div style="height:280px;text-align:center">
+			  	
+				<label style="margin-top:60px;margin-right:18px"><input  name="wxzf" type="radio" value="wx_1" checked="checked"/>充值1个月 </label> 
+				<label style="margin-right:18px"><input  name="wxzf" type="radio" value="wx_6" />充值6个月</label> 
+				<label style="margin-right:18px"><input name="wxzf" type="radio" value="wx_12" />充值1年</label> 
+				
+				
+				<br>
+				<input style="margin-top:30px;width:100px;height:40px;background-color:#44b549;color:#fff;border-radius:4px;border-color: rgba(68, 181, 73, 0);" id="wxzfs"  type="button" value ="确认支付">
+			  	</div>
+			  </div>
+			</div>
+    		</div>
+			
+    		<div class="col-md-4 col-xs-6" style="height:200px;width:400px">
+    			<span id="sx" style="margin: 0 15px;border-left: 0px solid rgba(48, 57, 69, 0.23);border-right: 1px solid rgba(48, 57, 69, 0.23);vertical-align: middle;height: 200px;display: inline-block;"></span>
+    			<img id="wxvalue" alt="模式二扫码支付" src="" style="width:200px;height:200px;" class="hidden"/>
+		        (微信二维码刷新处)
+		        </div>
+    			
+    		</div>
+    	-->
+    	
+		<a  style="position:fixed;top: 50%;right: 0px;z-index:99" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3343237588&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2145822969:53" alt="有事情联系我" title="有事情联系我"/></a>
+    	<div class="container" style="width:100%; margin-top:80px">
+                        <table class="table table-bordered   " style="width: 1200px; margin: 0 auto;">
+                            <tbody><tr>
+                                <th style="width:100px;">产品特色</th>
+                                <th style="width:100px;">限制</th>
+                                <th style="width:100px;">套餐</th>
+                                <th style="width:300px;">购买</th>
+                            </tr>
+                            <tr>
+								<td rowspan="6">2人同时在线<br>海外加速<br>付费后自动开启<br>自动过滤<br>智能检测</td>
+                                <td rowspan="6">不限时间<br>不限流量<br>不限带宽</td>
+                            </tr>
+                            <tr>
+                                <td style="background:#f5f5f5; font-size:18px;">包月套餐</td>
+                                <td style="background:#f5f5f5; height:100px;">
+                                    <div class="fl" style="margin-top: 0px; font-size: 40px; margin-right: 10px; width: 145px; text-align: center; margin-left: 21px; color: #FF6A00"><span id="pricepack0" style="font-family: 'Georgia'">18</span><span style="font-size: 20px; color: #000; margin-left: 10px;">元/月</span></div>
+                                    <div class="fl" style="margin-top:13px;">
+                                    	
+                                        <div class="fl" style=" width: 100px; line-height: 35px; background: #25b963; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px; ">
+                                            <a href="javascript:void(0)" id="wx_1" name="paybuttonwx" style="color: #fff; text-decoration: none"  onclick=weipay(this.id) >微信购买</a>
+                                        </div>
+                                        
+                                        <div class="fl" style=" width: 100px; line-height: 35px; background: #00bbee; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px; ">
+                                            <a href="javascript:void(0)" id="zfb_1" name="paybutton" style="color:#fff; text-decoration:none" onclick=pay(this.id)>支付宝购买</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background:#f5f5f5; font-size:18px;">季度套餐</td>
+                                <td style="background:#f5f5f5; height:100px;">
+                                    <div class="fl" style="margin-top: 0px; font-size: 40px; margin-right: 10px; width: 145px; text-align: center; margin-left: 21px; color: #FF6A00; "><span id="pricepack2" style="font-family: 'Georgia'">72</span><span style="font-size: 20px; color: #000; margin-left: 10px;">元/一季</span></div>
+                                    <div class="fl" style="margin-top:15px;">
+                                         
+                                        <div class="fl" style=" width: 100px; line-height: 35px; background: #25b963; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px;">
+                                            <a href="javascript:void(0)" id="wx_3" name="paybuttonwx" style="color: #fff; text-decoration: none" onclick=weipay(this.id)>微信购买</a>
+                                        </div>
+                                        
+                                        <div class="fl" style=" width: 100px; line-height: 35px; background: #00bbee; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px; ">
+                                            <a href="javascript:void(0)" id="zfb_3" name="paybutton" style="color:#fff; text-decoration:none" onclick=pay(this.id)>支付宝购买</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style=" font-size:18px;">一年套餐</td>
+                                <td style="height:100px;">
+                                    <div class="fl" style="margin-top: 0px; font-size: 40px; margin-right: 10px; width: 150px; text-align: center; margin-left: 21px; color: #FF6A00; "><span id="pricepack3" style="font-family: 'Georgia'">180</span><span style="font-size: 20px; color: #000; margin-left: 10px;">元/年</span></div>
+                                    <div class="fl" style="margin-top:15px;">
+                                        
+                                        <div class="fl" style=" width: 100px; line-height: 35px; background: #25b963; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px;">
+                                            <a href="javascript:void(0)" id="wx_12" name="paybuttonwx" style="color: #fff; text-decoration: none" onclick=weipay(this.id)>微信购买</a>
+                                        </div>
+                                        
+                                        <div class="fl" style=" width: 100px; line-height: 35px; background: #00bbee; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px; ">
+                                            <a href="javascript:void(0)" id="zfb_12" name="paybutton" style="color:#fff; text-decoration:none" onclick=pay(this.id)>支付宝购买</a>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </div>
+                    
+                    <div class="container" style="width:100%; margin-top:20px;text-align:center">
+					
+    					<img id="wxvalue" alt="模式二扫码支付" src="" style="width:200px;height:200px;" class="hidden"/>
+    				</div>
+    		
+    		</div>
+
+ 		<php>
+         	}
+        </php>
+        </div>
+	<!--
+        <div style="background-color: rgba(55, 164, 249, 0.2);margin-top:20px;margin-bottom:-30px;">
+		<div class="container" style="text-align:center">
+			<b>鑫盛奇网络科技（武汉）有限公司        品牌创新网络科技服务商</b><br>
+			<span>行业深耕，让我们成长为一家具有独特主张的网络科技整合服务商；多年来，我们专注科技服务整合设计与体验创新研究，在多元化的移动互联时代，为您提供更加有效的科技策略与服务。</span>
+		</div>
+	</div>
+	-->
+	<!-- 页尾 -->	
+	<div class="cont_copyrignt ">
+		<div class="container">
+				<div class="cont_copytight_text pull-left"><a target="_blank" href="http://www.miitbeian.gov.cn/">ICP证：沪ICP备17002025号-1 </a>  
+				<span>&nbsp;&nbsp;&nbsp;&nbsp;51sgg是一款专门为外贸/IT等提供必备网络服务的浏览器，所有日志均有详细记录，<b>使用时请务必遵守您当地的法律</b>.</span>
+				</div>
+			<div class="cont_copytight_text pull-right">©2016 51sgg.
+				All rights reserved
+			</div>
+		</div>
+	</div>
+<script>
+	function refresh(){
+	    window.location.reload();//刷新当前页面.
+	}
+	
+	function pay(data){
+		params={'costpattern':data};
+		var url="{:U('Pay/doalipay')}";
+		post(url,params);
+	}
+	
+	function post(url, params) {
+		var temp = document.createElement('form');
+		temp.action = url;
+		temp.method = 'post';
+		temp.style.display = 'none';
+		for (var x in params) {
+		var opt = document.createElement('textarea');
+		opt.name = x;
+		opt.value = params[x];
+		temp.appendChild(opt);
+		}
+		document.body.appendChild(temp);
+		temp.submit();
+		return temp;
+	}
+	
+	function weipay(data){
+		var out_trade_no="";
+		$.ajax({
+			type: 'post',
+			url: "{:U('Wei/doweipay')}",
+			data: {'data':data},
+			async: true,
+			success: function(data){
+				$('#wxvalue').attr('src','qrcode.php?data='+data.url);
+				$('#wxvalue').removeClass('hidden');
+				out_trade_no=data.out_trade_no;
+			},
+			error: function(data){
+				alert('出现了未知错误');
+			},
+		});
+		
+		setInterval(function(){
+			$.ajax({
+				type:'post',
+				url:"{:U('Wei/verify')}",
+				data:{'out_trade_no':out_trade_no},
+				async:true,
+				success:function(data){
+					if(data.trade_status=='WX_SUCCESS'){
+						//alert('您的充值已经成功');
+						refresh();
+					}
+				},
+			});
+		},5000);
+	}
+	
+
+
+	
+</script>		
+</block>

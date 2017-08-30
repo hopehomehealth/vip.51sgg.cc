@@ -1,0 +1,776 @@
+<extend name="Base/common"/>
+
+<block name="body">
+    <style>
+    .hidden{display:none}
+    #payc{position: relative;width: 200px;height: auto;min-height: 168px;margin: 0 auto;padding: 6px;border: 1px solid #d3d3d3;-webkit-box-shadow: 1px 1px 1px #ccc;box-shadow: 1px 1px 1px #ccc;}
+    
+    #side-nav, #main{padding: 0;}
+    #side-nav ul{ list-style: none; padding-left: 0;}
+    #side-nav ul li{width: 100%;height: 50px;line-height: 50px;position: relative;}
+    #side-nav ul li.on{border-left: 2px solid #66a6fe;}
+    #side-nav ul li a{text-decoration: none; color: #333 !important; }
+    #side-nav ul li a:hover{background-color: #fafafa;}
+    #side-nav ul li.on a{background: url(Public/images/jt1.png) 170px 17px no-repeat; color: #66a6fe!important;}
+    #side-nav ul li a{height: 50px;display: block;padding: 0 10px 0 60px;}
+    #side-nav ul li i{display: inline-block;position: absolute;top: 50%;margin-top: -7px;left: 30px;width: 16px;height: 16px;}
+    li .icn1{background: url(Public/images/icon1.png) no-repeat top center;}
+    li.on .icn1{background: url(Public/images/icon1_on.png) no-repeat top center;}
+    li .icn2{background: url(Public/images/icon2.png) no-repeat top center;}
+    li.on .icn2{background: url(Public/images/icon2_on.png) no-repeat top center;}
+    li .icn3{background: url(Public/images/icon3.png) no-repeat top center;}
+    li.on .icn3{background: url(Public/images/icon3_on.png) no-repeat top center;}
+    li .icn4{background: url(Public/images/icon4.png) no-repeat top center;}
+    li.on .icn4{background: url(Public/images/icon4_on.png) no-repeat top center;}
+    li .icn5{background: url(Public/images/icon5.png) no-repeat top center;}
+    li.on .icn5{background: url(Public/images/icon5_on.png) no-repeat top center;}
+
+    #notice-list, #notice-footer{width: 100%; padding: 0;}
+    #notice-list *{display: block;}
+    #notice-list li{margin-bottom: 3px;}
+    #notice-list li a{float: left; text-decoration: none;}
+    #notice-list li span{float: right;}
+    
+    .pagination {display: inline-block;padding-left: 0;margin: 20px 0;border-radius: 4px;}
+    .pagination>li {display: inline;}
+    .pagination>li>a{position: relative;float: left;padding: 6px 12px;margin-left: -1px;line-height: 1.42857143;color: #337ab7;text-decoration: none; background-color: #fff;border: 1px solid #ddd;}
+    .pagination>.disabled>a{color: #777;cursor: not-allowed !important;background-color: #fff;border-color: #ddd;}
+    .pagination>.active>a{z-index: 3;color: #fff;cursor: default;background-color: #337ab7;border-color: #337ab7;
+    .pagination>li:first-child>a{margin-left: 0;border-top-left-radius: 4px;border-bottom-left-radius: 4px;}
+    .pagination>li:last-child>a{border-top-right-radius: 4px;border-bottom-right-radius: 4px;}
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/home.css"/>
+    <link href="__CSS__/center.css" type="text/css" rel="stylesheet">
+    <script src="__JS__/build/mediaelement-and-player.min.js"></script>
+    <script src='__JS__/build/form_check.js'></script>
+    <div>
+        <php>if(($message!=null)&&(is_login()>0)&&($message!="")&&($message[0]!=null)){</php>
+            <div class="alert with-icon alert-danger">
+                <i class="icon-remove-sign"></i>
+    
+                <div class="content">{$message}</div>
+            </div>
+        <php>}</php>
+        <php>
+             if(is_login()>0){
+                 //用户信息
+                 $uid=get_uid();
+                $expire=D('Common/Userrad')->userexpire($uid);
+			    error_log('getusertype:'.$expire);
+			    $result=D('Common/Recordrad')->usertype($uid);
+			    $username=D('Common/Member')->where(array('uid'=>$uid))->getField('nickname');
+			    
+			    $type= $result[0]['cost_type'];
+			    $arr['nickname']=$username;
+			    if(empty($type)){
+			        $type='免费用户';
+			    }else if($type==1){
+			        $type='月度用户';
+			    }else if($type==3){
+			        $type='季度用户';
+			    }else if($type==6){
+			        $type='半年用户';
+			    }else if($type==12){
+			        $type='年度用户';
+			    }else{
+			        $type='其他用户';
+			    }
+                 $currentvpn=D('Common/Radcheck')->userop(get_uid());
+                 if($currentvpn=='=='){
+                     $currentvpn='可用';
+                 }else{
+                     $currentvpn='不可用';
+                 }
+                 $message=null;
+                 if($expire==0||$expire==""){
+                     $message = '您是新注册用户';    
+                 }else{
+                     $now = time();
+                     $expire=date('Y-m-d H:i:s',$expire);
+                     if($now > $expire){
+                     	$message ='到期时间为：<span style="color:#ff6a00;">'.$expire.'</span>';
+                     }else{
+                        $message ='已经于<span style="color:#ff6a00;">'.$expire.'</span>到期'; 
+                     }
+                 }   
+        </php>
+        <div>
+            <div id="side-nav" class="col-md-2" style="height:580px; background-color:#fff;">
+                <ul> 
+                    <li class="on">
+                        <a href="#recharge"><i class="icn1"></i>充值续费</a>
+                    </li>
+                    <li>
+                        <a href="#recharge-record"><i class="icn2"></i>充值记录</a>
+                    </li>
+                    <li>
+                        <a href="#edit-info"><i class="icn3"></i>编辑资料</a>
+                    </li>
+                    <li>
+                        <a href="#reset-pass"><i class="icn4"></i>重置密码</a>
+                    </li>
+                    <li>
+                        <a href="#notice"><i class="icn5"></i>公告</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div id="main" class="col-md-10" style="padding-left: 20px;">
+                <div class="container" style="padding:20px 10px 20px 10px;">
+                    <!-- <div class="col-md-2 col-xs-2">
+                        <a href="javascript:;" title="">
+                            <img src="{$user_info.avatar64}" class="avatar-img img-responsive top_img"/>
+                        </a>
+                    </div> -->
+                    <div>
+                        <div style="float:left;">
+                            <p style="font-size:14px;display:inline;">
+                                欢迎您：<span style="color:#ff6a00" id="wel-user">{$username}[{$type}]</span>
+                            </p>
+                        </div>
+                        <div style="float:right;background: url(Public/images/time.png) 0 3px no-repeat; padding-left:17px;">
+                            <p style="font-size:14px;display:inline;" id="expire-time">{$message}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container" style="width:100%; margin-top:20px">
+                    <!-- 充值 -->
+                    <div id="recharge">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th style="width:100px;">产品特色</th>
+                                    <th style="width:100px;">限制</th>
+                                    <th style="width:100px;">套餐</th>
+                                    <th style="width:300px;">购买</th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="6">2人同时在线<br>海外加速<br>付费后自动开启<br>自动过滤<br>智能检测</td>
+                                    <td rowspan="6">不限时间<br>不限流量<br>不限带宽</td>
+                                </tr>
+                                <tr>
+                                    <td style="background:#f5f5f5; font-size:18px;">包月套餐</td>
+                                    <td style="background:#f5f5f5; height:100px;">
+                                        <div class="fl" style="margin-top: 0px; font-size: 40px; margin-right: 10px; width: 145px; text-align: center; margin-left: 21px; color: #FF6A00"><span id="pricepack0" style="font-family: 'Georgia'">15</span><span style="font-size: 20px; color: #000; margin-left: 10px;">元/月</span></div>
+                                        <div class="fl" style="margin-top:13px;">
+                                            <div class="fl" style=" width: 100px; line-height: 35px; background: #25b963; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px; ">
+                                                 <a href="javascript:void(0)" id="wx_1" name="paybuttonwx" style="color: #fff; text-decoration: none"  onclick=weipay(this.id) >微信购买</a>
+                                            </div>   
+                                            <div class="fl" style=" width: 100px; line-height: 35px; background: #00bbee; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px; ">
+                                                 <a href="javascript:void(0)" id="zfb_1" name="paybutton" style="color:#fff; text-decoration:none" onclick=pay(this.id)>支付宝购买</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background:#f5f5f5; font-size:18px;">季度套餐</td>
+                                    <td style="background:#f5f5f5; height:100px;">
+                                        <div class="fl" style="margin-top: 0px; font-size: 40px; margin-right: 10px; width: 145px; text-align: center; margin-left: 21px; color: #FF6A00; "><span id="pricepack2" style="font-family: 'Georgia'">40</span><span style="font-size: 20px; color: #000; margin-left: 10px;">元/一季</span></div>
+                                        <div class="fl" style="margin-top:15px;">
+                                            <div class="fl" style=" width: 100px; line-height: 35px; background: #25b963; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px;">
+                                                <a href="javascript:void(0)" id="wx_3" name="paybuttonwx" style="color: #fff; text-decoration: none" onclick=weipay(this.id)>微信购买</a>
+                                            </div>   
+                                            <div class="fl" style=" width: 100px; line-height: 35px; background: #00bbee; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px; ">
+                                                <a href="javascript:void(0)" id="zfb_3" name="paybutton" style="color:#fff; text-decoration:none" onclick=pay(this.id)>支付宝购买</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style=" font-size:18px;">一年套餐</td>
+                                    <td style="height:100px;">
+                                        <div class="fl" style="margin-top: 0px; font-size: 40px; margin-right: 10px; width: 145px; text-align: center; margin-left: 21px; color: #FF6A00; "><span id="pricepack3" style="font-family: 'Georgia'">150</span><span style="font-size: 20px; color: #000; margin-left: 10px;">元/年</span></div>
+                                        <div class="fl" style="margin-top:15px;">
+                                             <div class="fl" style=" width: 100px; line-height: 35px; background: #25b963; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px;">
+                                                 <a href="javascript:void(0)" id="wx_12" name="paybuttonwx" style="color: #fff; text-decoration: none" onclick=weipay(this.id)>微信购买</a>
+                                             </div>
+                                             <div class="fl" style=" width: 100px; line-height: 35px; background: #00bbee; border-radius: 5px; text-align: center; color: #fff; margin-right: 15px; ">
+                                                  <a href="javascript:void(0)" id="zfb_12" name="paybutton" style="color:#fff; text-decoration:none" onclick=pay(this.id)>支付宝购买</a>
+                                             </div>
+                                             <div class="clear"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="container" style="width:100%; margin-top:20px;text-align:center">
+                            <div id="payc" class="hidden">            
+                                    <img id="wxvalue" alt="模式二扫码支付" src="" style="width:200px;height:200px;" class="hidden"/>
+                                       <div class="">
+                                    <img class="fn-left" src="/Public/images/sm.png" alt="扫一扫标识">
+                                    <div class="fn-left">打开手机微信<br>扫一扫继续付款</div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <!-- 充值记录 -->
+                    <div id="recharge-record" class="hidden">
+                        <table id="r-record-list" class="table table-bordered">
+                            <thead> 
+                                <tr>
+                                    <th>充值时间</th>
+                                    <th>单号</th>
+                                    <th>金额（元）</th>
+                                    <th>充值方式</th>
+                                    <th>类型</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot><tr></tr></tfoot>
+                        </table>
+                    </div>
+
+                    <!-- 网站公告 -->
+                    <div id="notice" class="hidden">
+                        <!-- 网站公告列表： -->
+                        <ul id="notice-list">
+                        </ul>
+                        
+                        <div id="notice-footer" class="clearfix"></div>
+
+                        <!-- 公告详情摸态框 -->
+                        <div class="modal fade" id="notice-modal">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                                <h4 class="modal-title"></h4>
+                              </div>
+                              <div class="modal-body">
+                                <p></p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <!-- 重置密码 -->
+                    <div id="reset-pass" class="hidden">
+                        <form>
+                            <div class="form-group" style="position:relative; width:400px;"> 
+                                <label class="control-label" for="">原密码</label>
+                                <input type="text" id="old-pass" class="form-control" placeholder="请输入原密码">
+                            </div>
+                            <div class="form-group" style="position:relative; width:400px;">
+                                <label class="control-label" for="">新密码</label>
+                                <input type="password" id="new-pass" class="form-control" placeholder="请输入新密码">
+                            </div>
+                            <div class="form-group" style="position:relative; width:400px;"> 
+                                <label for="" class="control-label">确认密码</label>
+                                <input type="password" id="re-new-pass" class="form-control" placeholder="请再次输入新密码">
+                            </div>
+                            <button id="reset-submit" type="button" class="btn btn-primary">确认修改</button>
+                        </form>
+                    </div>
+
+                    <!-- 用户资料 -->
+                    <div id="edit-info" class="hidden">
+                        <label class="control-label">联系电话</label>
+                        <p id="user-data-mobile" style="font-size:16px;color: #949494;"></p>
+                        <label class="control-label">QQ</label>
+                        <p id="user-data-qq" style="font-size:16px;color: #949494;"></p>
+                        <button id="edit-user-data-btn" class="btn btn-primary">编辑</button>
+                        
+                        <div class="modal fade" id="user-data-modal">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                                <h4 class="modal-title">编辑用户资料</h4>
+                              </div>
+                              <div class="modal-body">
+                                <form action="" class="form-horizontal">
+                                  <div class="form-group"> 
+                                    <label for="" class="col-sm-2">联系电话</label>
+                                    <div class="col-sm-10"> 
+                                      <input id="edit-user-data-mobile" type="text" class="form-control" placeholder="请输入您的联系电话">
+                                    </div>
+                                  </div>
+                                  <div class="form-group"> 
+                                    <label for="" class="col-sm-2">QQ</label>
+                                    <div class="col-sm-10"> 
+                                      <input id="edit-user-data-qq" type="text" class="form-control" placeholder="请输入您的QQ号码">
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button id="submit-user-data-btn" type="button" class="btn btn-primary">保存</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <php>
+            }
+        </php>
+        <!-- 联系客服 -->
+        <a style="position:fixed;top: 50%;right: 0px;z-index:99" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3343237588&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2145822969:53" alt="有事情联系我" title="有事情联系我"/></a>
+    </div>
+
+<script>
+    window.onload = function(){
+        var href = window.location.href;
+        var id = href.split("#")[1];
+        if($("#" + id).length == 1){
+            console.log(id);
+            $("a[href='#" + id + "']").parents("li").click();
+        }else{
+            console.log("没有这个id");
+        }
+    }
+
+    $("#side-nav ul li").click(function(){
+        $(this).addClass("on");
+        $(this).siblings().removeClass("on");
+        var href = $(this).children("a").attr("href").substring(1);
+        $("#"+href).removeClass("hidden").siblings().addClass("hidden");
+    })
+
+    $(document).ready(function(){
+        //初始化用户信息（用户名、用户有效时间）
+        //initUserInfo();
+        //初始化用户资料
+        initUserData();
+        loadNoticeList();
+        loadRechargeRecordList();
+        initFormCheck();
+        $("#reset-submit").click(function(e){
+            var obj = $("#old-pass");
+            var obj1 = $("#new-pass");
+            var obj2 = $("#re-new-pass");
+            if(formCheckR(obj)&&formCheckR(obj)&&formCheckR(obj)){
+                var old_password = obj.val();
+                var new_password = obj1.val();
+                var re_new_password = obj2.val();
+                if(new_password != re_new_password){
+                    $("#re-new-pass").parent().find('.show_info').html("<div class='send red'><div class='arrow'></div>两次密码不一致</div>");
+                }else{
+                    var data = {
+                        old_password: old_password,
+                        new_password: new_password
+                    }
+                    
+                    $.ajax({
+                        type: 'post',
+                        url: "{:U('Spend/changepassword')}",
+                        data: {'data':data},
+                        async: true,
+                        success: function(data){
+                            if(data.data == true){
+                                $("#reset-pass").find("input").val("");
+                                $(".show_info").html("");
+                                alert("修改成功");
+                            }else{
+                                $("#old-pass").parent().find('.show_info').html("<div class='send red'><div class='arrow'></div>原密码有误</div>");
+                            }
+                        },
+                        error: function(data){
+                            //alert("修改失败");
+                        },
+                    });
+                }
+            }
+        })
+
+        $("#edit-user-data-btn").click(function(){
+            $("#edit-user-data-mobile").val(user_data.mobile);
+            $("#edit-user-data-qq").val(user_data.qq);
+            mobileCheck($("#edit-user-data-mobile"));
+            qqCheck($("#edit-user-data-qq"));
+            $(".show_info").html("");
+            $("#user-data-modal").modal("show");
+        })
+
+        $("#submit-user-data-btn").click(function(){
+            var obj = $("#edit-user-data-mobile");
+            var obj1 = $("#edit-user-data-qq");
+            if(formCheckR(obj) && formCheckR(obj1)){
+                var mobile = obj.val();
+                var qq = obj1.val();
+                var data = {
+                    mobile: mobile,
+                    qq: qq,
+                };
+                $.ajax({
+                    type: 'post',
+                    url: "{:U('Spend/setdata')}",
+                    data: {'data': data},
+                    async: true,
+                    success: function(data){
+                        initUserData();
+                        $("#user-data-modal").modal("hide");
+                    },
+                    error: function(data){
+                        alert("编辑失败");
+                    },
+                });
+            }
+            
+        })
+    })
+
+    var user_data = null;
+    //初始化用户资料
+    function initUserData(){
+        function scb(data){
+            //console.log(data);
+            user_data = data;
+            $("#user-data-mobile").html(data.mobile);
+            $("#user-data-qq").html(data.qq);
+        }
+        $.ajax({
+            type: 'post',
+            url: "{:U('Spend/getdata')}",
+            data: {},
+            async: true,
+            success: function(data){
+                scb(data);
+            },
+            error: function(data){
+                console.log("初始化用户资料失败！");
+            },
+        });
+    }
+
+    var notice_list = null;
+    //公告列表
+    function loadNoticeList(index, count){
+        var id = "#notice-list";
+        $(id).empty();
+        $("#notice-footer").empty();
+        var index = parseInt(index) || 0;
+        var count = parseInt(count) || 10;
+        
+        function scb(data){
+            //console.log(data);
+            var pagenumber = Math.ceil(data.total / count);
+            notice_list = data.data;
+            for(var i = 0; i < notice_list.length; i++){
+                var item = notice_list[i];
+                var li = $("<li data-id='" + i + "'class='clearfix'><a href='javascript:;'>" + item.title + "</a><span>[" + item.create_time + "]</span></li>");
+                li.click(function(e){
+                    var data_id = $(this).attr("data-id");
+                    $("#notice-modal .modal-title").html(notice_list[data_id].title);
+                    $("#notice-modal .modal-body p").html(notice_list[data_id].content);
+                    $("#notice-modal").modal("show");
+                })
+                $(id).append(li);
+            }
+            setFoot("#notice-footer", pagination(index, 3, pagenumber, function(t, e) {
+                loadNoticeList(parseInt(t.hash.replace("#", "")));
+            }));
+        }
+        
+        function ecb(){
+            alert("初始化失败！");
+        }
+        
+        var data = {
+            index: index,
+            count: count,
+        }
+        
+        $.ajax({
+            type: 'post',
+            url: "{:U('Notice/getnotice')}",
+            data: {'data':data},
+            async: true,
+            success: function(data){
+                scb(data);
+            },
+            error: function(data){
+                ecb();
+            },
+        });
+    }
+
+    //充值记录
+    function loadRechargeRecordList(index, count){
+        var tid = "#r-record-list";
+        $(tid).find("tbody").empty();
+        $(tid).find("tfoot tr").empty();
+        var index = parseInt(index) || 0;
+        var count = parseInt(count) || 8;
+        function scb(data){
+            //console.log(data);
+            if(data.total == 0){
+                stringLoadFail(tid, "没有数据");
+                return;
+            }
+            var pagenumber = Math.ceil(data.total / count);
+            var list = data.data;
+            var rows = [];
+            for(var i = 0; i < list.length; i ++){
+                var item = list[i];
+                var row = $("<tr></tr>");
+                row.append("<td>" + item.notify_time + "</td>");
+                row.append("<td>" + item.trade_no + "</td>");
+                if(item.trade_status == "WX_SUCCESS"){
+                    row.append("<td>" + item.total_fee/100 + "</td>");
+                    row.append("<td>" + "微信" + "</td>");
+                }else if(item.trade_status == "TRADE_SUCCESS"){
+                    row.append("<td>" + item.total_fee + "</td>");
+                    row.append("<td>" + "支付宝" + "</td>");
+                }
+                if(item.cost_type == 1){
+                    row.append("<td>" + "月度" + "</td>");
+                }else if(item.cost_type == 3){
+                    row.append("<td>" + "季度" + "</td>");
+                }else if(item.cost_type == 6){
+                    row.append("<td>" + "半年" + "</td>");
+                }else if(item.cost_type == 12){
+                    row.append("<td>" + "年度" + "</td>");
+                }else{
+                    row.append("<td>" + "位置" + "</td>");
+                }
+                
+                rows.push(row);
+            }
+            $(tid).find("tbody").append(rows);
+            $(tid).find("tfoot tr").append($("<td id='r-record-list-foot' colspan='5'></td>"));
+            setFoot("#r-record-list-foot", pagination(index, 3, pagenumber, function(t, e) {
+                loadRechargeRecordList(parseInt(t.hash.replace("#", "")));
+            }));
+        }
+        
+        function ecb(){
+        }
+        
+        var data = {
+            index: index,
+            count: count,
+        }
+        
+        $.ajax({
+            type: 'post',
+            url: "{:U('Spend/getpaylist')}",
+            data: {'data':data},
+            async: true,
+            success: function(data){
+                scb(data);
+            },
+            error: function(data){
+                ecb();
+            },
+        });
+    }
+
+    //验证密码
+    function passCheck(obj){
+        obj.after('<div class="show_info"></div>');
+        obj.attr("data-check-result", 'false');
+        obj.blur(function(){
+            var str =  obj.val().replace(/\s+/g, "");
+            var html = '';
+            if (str.length == 0) {
+                html = '<div class="send red"><div class="arrow"></div>不能为空</div>';
+            } else {
+                if (30 < str.length || str.length < 6) {
+                    html = '<div class="send red"><div class="arrow"></div>长度不符合要求</div>';
+                }else{
+                    html = '<div class="send green"><div class="arrow"></div>验证成功</div>';
+                    obj.attr("data-check-result", "true");
+                }
+            }
+            obj.parent().find('.show_info').html(html);
+        })
+    }
+
+    //验证手机号
+    function mobileCheck(obj){
+        obj.after('<div class="show_info"></div>');
+        if(obj.val() == ""){
+            obj.attr("data-check-result", 'false');
+        }else{
+            obj.attr("data-check-result", 'true');
+        }
+        obj.blur(function(){
+            var str =  obj.val().replace(/\s+/g, "");
+            var html = '';
+            var reg = /^1[34578]\d{9}$/;
+            if (str.length == 0) {
+                html = '<div class="send red"><div class="arrow"></div>不能为空</div>';
+            } else {
+                if (!reg.test(str)) {
+                    html = '<div class="send red"><div class="arrow"></div>非法的手机号码</div>';
+                    obj.attr("data-check-result", "false");
+                }else{
+                    html = '<div class="send green"><div class="arrow"></div>验证成功</div>';
+                    obj.attr("data-check-result", "true");
+                }
+            }
+            obj.parent().find('.show_info').html(html);
+        })
+    }
+
+    //验证qq号码
+    function qqCheck(obj){
+        obj.after('<div class="show_info"></div>');
+        if(obj.val() == ""){
+            obj.attr("data-check-result", 'false');
+        }else{
+            obj.attr("data-check-result", 'true');
+        }
+        obj.blur(function(){
+            var str =  obj.val().replace(/\s+/g, "");
+            var html = '';
+            var reg = /^[1-9][0-9]{4,9}$/;
+            if (str.length == 0) {
+                html = '<div class="send red"><div class="arrow"></div>不能为空</div>';
+            } else {
+                if (!reg.test(str)) {
+                    html = '<div class="send red"><div class="arrow"></div>非法的qq号码</div>';
+                    obj.attr("data-check-result", "false");
+                }else{
+                    html = '<div class="send green"><div class="arrow"></div>验证成功</div>';
+                    obj.attr("data-check-result", "true");
+                }
+            }
+            obj.parent().find('.show_info').html(html);
+        })
+    }
+
+    //表单验证结果
+    function formCheckR(obj){
+        if(obj.attr("data-check-result") == 'true'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //验证重置密码表单
+    function initFormCheck(){
+        passCheck($("#old-pass"));
+        passCheck($("#new-pass"));
+        passCheck($("#re-new-pass"));
+    }
+
+    function stringLoadFail(id, text) {
+        $(id).find("tfoot").append($("<tr><td colspan=\"" + "5" + "\"></td></tr>"));
+        var info = $("<div style=\"text-align:center;\" class=\"small text-muted\">" + (text || "数据加载失败, 请尝试刷新页面。") + "</div>");
+        $(id).find("tfoot>tr>td:first").append(info);
+    }
+    
+    function setFoot(id, element) {
+        $(id).append(element);
+    }
+
+    function pagination(index, range, total, callback) {
+        var index = parseInt(index);
+        var range = parseInt(range);
+        var total = parseInt(total);
+        var callback = callback || function(t, e) {console.log(t);};
+        var pagination = $("<nav class=\"pull-right\"><ul class=\"pagination\"></ul> <ul class=\"pagination\"></ul></nav>");
+        var first = index - Math.floor((range - 1) / 2);
+        first = total - range < first ? total - range : first;
+        first = first < 0 ? 0 : first;
+        var last = first + range;
+        last = last > total ? total : last;
+        var items = [];
+        items.push({text: "&laquo;", index: 0});
+        items.push({text: "&lsaquo;", index: index - 1 < 0 ? 0 : index - 1});
+        if (index == 0) {
+            items[0].style = "disabled";
+            items[1].style = "disabled";
+        }
+        for (var i = first; i < last; i++) {
+            items.push({text: i + 1, index: i});
+            if (i == index) {
+                items[items.length - 1].style = "active";
+            }
+        }
+        items.push({text: "&rsaquo;", index: index + 1 > last ? last : index + 1});
+        items.push({text: "&raquo;", index: total - 1});
+        if (index == total - 1) {
+            items[items.length - 2].style = "disabled";
+            items[items.length - 1].style = "disabled";
+        }
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var li = $("<li><a href=\"#" + item.index + "\">" + item.text + "</a></li>");
+            if (item.style) {
+                li.addClass(item.style);
+            } else {
+                li.find("a").click(function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    callback(this, e);
+                });
+            }
+            pagination.find("ul").eq(0).append(li);
+        }
+        return pagination;
+    }
+
+    function refresh(){
+        window.location.reload();//刷新当前页面.
+    }
+
+    function pay(data){
+        params={'costpattern':data};
+        var url="{:U('Pay/doalipay')}";
+        post(url,params);
+    }
+
+    function post(url, params) {
+        var temp = document.createElement('form');
+        temp.action = url;
+        temp.method = 'post';
+        temp.style.display = 'none';
+        for (var x in params) {
+        var opt = document.createElement('textarea');
+        opt.name = x;
+        opt.value = params[x];
+        temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+
+    function weipay(data){
+        var out_trade_no="";
+        $.ajax({
+            type: 'post',
+            url: "{:U('Wei/doweipay')}",
+            data: {'data':data},
+            async: true,
+            success: function(data){
+                $('#wxvalue').attr('src','qrcode.php?data='+data.url);
+                $('#wxvalue').removeClass('hidden');
+                $('#payc').removeClass('hidden')
+                out_trade_no=data.out_trade_no;
+            },
+            error: function(data){
+                alert('出现了未知错误');
+            },
+        });
+        
+        setInterval(function(){
+            $.ajax({
+                type:'post',
+                url:"{:U('Wei/verify')}",
+                data:{'out_trade_no':out_trade_no},
+                async:true,
+                success:function(data){
+                    if(data.trade_status=='WX_SUCCESS'){
+                        //alert('您的充值已经成功');
+                        refresh();
+                    }
+                },
+            });
+        },5000);
+    } 
+</script>
+
+</block>

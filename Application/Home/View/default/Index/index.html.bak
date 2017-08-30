@@ -1,0 +1,462 @@
+<extend name="Base/common"/>
+
+<block name="body">
+	<style>
+	.hidden{display:none}
+	</style>
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/home.css"/>
+    <script src="__JS__/build/mediaelement-and-player.min.js"></script>
+    
+    	<php>if(($message!=null)&&(is_login()>0)&&($message!="")&&($message[0]!=null)){</php>
+	        <div class="alert with-icon alert-danger">
+	            <i class="icon-remove-sign"></i>
+	
+	            <div class="content">{$message}</div>
+	        </div>
+        <php>}</php>
+         <php>
+         	if(is_login()>0){
+         		//用户信息
+         		$user_info = query_user(array('avatar128', 'nickname', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link', 'signature'), get_uid());
+         		//时间 招呼语
+         		$welcome_time =intval(date("H"));
+         		if(12>$welcome_time&&￥welcome_time>6){
+         			$welcome_time = "上午好,";
+         		}elseif(18>$welcome_time&&$welcome_time>12){
+         			$welcome_time = "下午好,";
+         		}else{
+         			$welcome_time = "晚上好,";
+         		}
+         		$currentvpn=D('Common/Radcheck')->userop(get_uid());
+         		if($currentvpn=='=='){
+         			$currentvpn='可用';
+         		}else{
+         			$currentvpn='不可用';
+         		}
+         		$message=null;
+         		$time=D('Common/Userrad')->where(array('user_id'=>get_uid()))->getField('expire_time');
+         		if($time==null){
+         			$message = '您是新注册用户';	
+         		}else{
+         			$expire=date('Y-m-d H:i:s',$time);
+         			$now = time();
+         			if($time<$now){
+         				$message ='您的会员已经于'.$expire.'到期';
+         			}else{
+         				$message ='您的会员到期时间为：'.$expire;
+         			}
+         		}
+         		
+         		
+         		
+         </php>
+         <!--        
+        <div id="pay">
+        	<div id="zfb" class="col-xs-6">
+        		<strong>支付宝</strong>
+       			<div>
+       				<ul>
+       					<li ><a  href="{:U('Ucenter/Member/register')}"><label ><span>1年</span></label><span ><span ><span>￥ </span>269</span><span ><i >￥360</i></span></span></a></li>
+       					<li ><a  href="javascript:void(0);"><label ><span>3个月</span></label><span ><span ><span>￥ </span>144</span><span ><i >￥180</i></span></span></a></li>
+       					<li ><a  href="javascript:void(0);"><label ><span>1个月</span></label><span ><span ><span>￥ </span>72</span><span ><i >￥90</i></span></span></a></li>
+       				</ul>
+       			</div>
+        	<div id="wx" class="col-xs-6">
+        		<strong>微信</strong>
+        	</div>
+        	</div>
+    	</div>
+    	 -->
+    	<div class="row" style="margin-right: -10px;margin-left: -10px;">
+    		<div class="col-md-2 col-xs-3">
+	    		<a  href="{$user_info.space_url}" title="">
+	        		<img src="{$user_info.avatar128}" class="avatar-img img-responsive top_img"/>
+	       		</a>
+    		</div>
+    		<div class="col-md-7 col-xs-9">
+    			<div class="col-md-5 col-xs-7" style="height:60px">
+    			<p style="font-size:20px;display:inline;bottom:0;position:absolute">{$welcome_time}{$user_info.nickname}</p>
+    			</div>
+    			<div class="col-md-4 col-xs-5" style="height:60px">
+    			<p style="font-size:16px;display:inline;bottom:0;position:absolute">您的vpn可用状态：{$currentvpn}</p>
+    			</div>
+    			<hr style="width:900px">
+    			<div class="col-md-9 col-xs-12" style="height:60px">
+    			<p style="font-size:16px;display:inline;top:0;position:absolute">{$message}</p>
+    			</div>
+    		</div>
+    	</div>
+
+    	<div class="row" style="margin-right: -10px;margin-left: -10px;margin-top:50px">
+    		<div class="col-md-4 col-xs-6" style="height:200px;width:600px">
+    		
+    		<ul id="myTab" class="nav nav-tabs">
+			  <li class="active" style="width:250px;text-align:center"><a href="###" id='zfbtab' data-target="#tab2Content1" data-toggle="tab">支付宝充值</a></li>
+			  <li style="width:250px;text-align:center"><a href="###" id='wxtab' data-target="#tab2Content2" data-toggle="tab">微信充值</a></li>
+			</ul>
+			<div class="tab-content">
+			  <div class="tab-pane fade active in" id="tab2Content1">
+			   	<form action="{:U('Pay/doalipay')}" method="post" style="height:280px;text-align:center">
+					<label style="margin-top:60px;margin-right:18px"><input  name="costpattern" type="radio" value="zfb_1" checked="checked"/>充值1个月 </label> 
+					<!--<label style="margin-right:18px"><input  name="costpattern" type="radio" value="zfb_3" />充值3个月 </label>--> 
+					<label style="margin-right:18px"><input  name="costpattern" type="radio" value="zfb_6" />充值6个月</label> 
+					<label style="margin-right:18px"><input name="costpattern" type="radio" value="zfb_12" />充值1年</label> 
+					<br>
+					<input style="margin-top:30px;width:100px;height:40px;background-color:rgba(10, 103, 251, 0.6);color:#fff;border-radius:4px;border-color: rgba(10, 103, 251, 0);" type="submit"  value ="确认支付">
+				</form>
+			  </div>
+			  <div class="tab-pane fade" id="tab2Content2">
+			  	<div style="height:280px;text-align:center">
+				<label style="margin-top:60px;margin-right:18px"><input  name="wxzf" type="radio" value="wx_1" checked="checked"/>充值1个月 </label> 
+				<!--<label style="margin-right:18px"><input  name="wxzf" type="radio" value="wx_3" />充值3个月 </label>--> 
+				<label style="margin-right:18px"><input  name="wxzf" type="radio" value="wx_6" />充值6个月</label> 
+				<label style="margin-right:18px"><input name="wxzf" type="radio" value="wx_12" />充值1年</label> 
+				<br>
+				<input style="margin-top:30px;width:100px;height:40px;background-color:#44b549;color:#fff;border-radius:4px;border-color: rgba(68, 181, 73, 0);" id="wxzfs"  type="button" value ="确认支付">
+			  	</div>
+			  </div>
+			</div>
+    		</div>
+			
+    		<div class="col-md-4 col-xs-6" style="height:200px;width:400px">
+    			<span id="sx" style="margin: 0 15px;border-left: 0px solid rgba(48, 57, 69, 0.23);border-right: 1px solid rgba(48, 57, 69, 0.23);vertical-align: middle;height: 200px;display: inline-block;"></span>
+    			<img id="wxvalue" alt="模式二扫码支付" src="" style="width:200px;height:200px;" class="hidden"/>
+		        (微信二维码刷新处)
+		        </div>
+    			
+    		</div>
+    	</div>
+    	
+ 		<php>
+         	}
+        </php>
+	<!-- 客服QQ -->
+	<a  style="position:fixed;top: 50%;right: 0px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2145822969&site=qq&menu=yes"><img border="0" src="__IMG__/qq.gif" alt="有事情联系我" title="有事情联系我"/></a>
+        <!-- 介绍 -->
+        <div class="cont01">
+			<div class="container cont01_in">
+				<div class="text-center cont01_2">
+					<h1>一个专门为外贸人员、开发者提供的<span class="ft">Web加速</span>工具</h1>
+					<div class="cont01_2_1" style="margin-bottom:20px;">无需设置，简单易用，不限流量、不限速度，可进行全局代理、自动代理等多重模式，支持Facebook、Youtube、Twitter、Google、Gmail等网站的访问</div>
+					<a href="/51sggBrowser.7z" target="_blank"><button class="btn btn-lg btn-danger">下载51sgg浏览器</button></a>
+					<!--  <a href="#instructions" style="padding-left:20px; color:#303030; text-decoration: underline">如何安装?</a>-->
+				</div>
+				<div class="text-center">
+					<h3>51sgg是基于chrome内核的浏览器</h3>
+					<div class="des">轻松安装，无需繁琐的网络设置；无流量限制，无速度限制；提供境外<span class="ft">Web加速</span>服务；支持全局代理，自动代理（自定义要代理的网站）两种代理模式。</div>
+					<div class="strong">
+						限时折扣: 18元 <small>/ 月</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 产品 -->
+		<div class="choose_title">套餐类型</div>
+		<div class="row">
+        <div class="col-md-4 col_2">
+            <div class="blk" style="background-color: #576966; ">
+                <h3 style="font-size:22px; font-weight:bold">包月套餐</h3>
+                <div>服务续费时间: 30天</div>
+                <div class="yuanjia">原价: <s>35元</s></div>
+                <hr class="index_middle_hr_2">
+                <div class="price">30元 <small>/月</small></div>
+                <hr class="index_middle_hr_2">
+            </div>
+        </div>
+	<!--
+        <div class="col-md-3 col_2">
+            <div class="blk" style="background-color: #f0ad4e">
+                <h3 style="font-size:22px; font-weight:bold">季度套餐</h3>
+                <div>服务续费时间: 90天</div>
+                <div class="yuanjia">原价: <s>90元</s></div>
+                <hr class="index_middle_hr_2">
+                <div class="price">50元 <small>/季</small></div>
+                <hr class="index_middle_hr_2">
+            </div>
+        </div>
+	-->
+        <div class="col-md-4 col_2">
+            <div class="blk" style="background-color: #4BBD37;">
+                <h3 style="font-size:22px; font-weight:bold">半年套餐</h3>
+                <div>服务续费时间: 180天</div>
+                <div class="yuanjia">原价: <s>180元</s></div>
+                <hr class="index_middle_hr_2">
+                <div class="price">150元 <small>/半年</small></div>
+                <hr class="index_middle_hr_2">
+            </div>
+        </div>
+        <div class="col-md-4 col_2">
+            <div class="blk" style="background-color: #4395E7">
+                <h3 style="font-size:22px; font-weight:bold">年度套餐</h3>
+                <div>服务续费时间: 365天</div>
+                <div class="yuanjia">原价: <s>360元</s></div>
+                <hr class="index_middle_hr_2">
+                <div class="price">300元 <small>/年</small></div>
+                <hr class="index_middle_hr_2">
+            </div>
+        </div>
+    </div>
+	<!-- 特性 -->
+	<div class="choose_title">套餐特性</div>
+	<table class="table table-striped quanxian">
+        <tbody><tr><td class="left30" width="25%"></td><td class="text-center bytitle">包月套餐</td><td class="text-center bjtitle">季度套餐</td><td class="text-center bntitle">半年套餐</td><td class="text-center bxtitle">年度套餐</td></tr>
+        <tr><td class="left30">全局代理-自动代理模式自由切换</td><td class="text-center bytitle_rt"><span class="icon icon-star "></span></td><td class="text-center bjtitle_rt"><span class="icon icon-star "></span></td><td class="text-center bntitle_rt"><span class="icon icon-star "></span></td><td class="text-center bxtitle_rt"><span class="icon icon-star "></span></td></tr>
+        <tr><td class="left30">不限速度，不限流量</td><td class="text-center bytitle_rt"><span class="icon icon-star "></span></td><td class="text-center bjtitle_rt"><span class="icon icon-star "></span></td><td class="text-center bntitle_rt"><span class="icon icon-star "></span></td><td class="text-center bxtitle_rt"><span class="icon icon-star "></span></td></tr>
+        <tr><td class="left30">同时在线人数上限</td><td class="text-center">2人同时在线</td><td class="text-center">2人同时在线</td><td class="text-center">2人同时在线</td><td class="text-center">2人同时在线</td></tr>
+        <tr><td class="left30">上网加速功能</td><td class="text-center bytitle_rt"><span class="icon icon-star "></span></td><td class="text-center bjtitle_rt"><span class="icon icon-star "></span></td><td class="text-center bntitle_rt"><span class="icon icon-star "></span></td><td class="text-center bxtitle_rt"><span class="icon icon-star "></span></td></tr>
+        <tr><td class="left30">自动过滤，智能检测</td><td class="text-center bytitle_rt"><span class="icon icon-star "></span></td><td class="text-center bjtitle_rt"><span class="icon icon-star "></span></td><td class="text-center bntitle_rt"><span class="icon icon-star "></span></td><td class="text-center bxtitle_rt"><span class="icon icon-star "></span></td></tr>
+        <tr><td class="left30">可配置站点是否使用代理</td><td class="text-center bytitle_rt"><span class="icon icon-star "></span></td><td class="text-center bjtitle_rt"><span class="icon icon-star "></span></td><td class="text-center bntitle_rt"><span class="icon icon-star "></span></td><td class="text-center bxtitle_rt"><span class="icon icon-star "></span></td></tr>
+        <tr><td class="left30">付费后自动开通或自动续费</td><td class="text-center bytitle_rt"><span class="icon icon-star "></span></td><td class="text-center bjtitle_rt"><span class="icon icon-star "></span></td><td class="text-center bntitle_rt"><span class="icon icon-star "></span></td><td class="text-center bxtitle_rt"><span class="icon icon-star "></span></td></tr>
+    	</tbody>
+    </table>
+    <!-- 安装视频 -->
+    <div class="choose_title">使用教程</div>
+    <div class="row" style="text-align:center">
+    	<div class="col-md-12 col-xs-12">
+    	<video width="960" height="540" src="studio.mp4" type="video/mp4" 
+		id="player1" poster="studio.jpg" 
+		controls="controls" preload="none"></video>
+    	</div>
+    </div>
+    <!-- 安装说明 -->
+    <a name="#instructions"></a>
+    <div class="choose_title">安装说明</div>
+    <p style="text-align:center;margin-top:-15px;font-size:14px"> 请按照以下步骤依次安装 </p>
+    <div class="row" style="text-align:center">
+			<div class="col-md-3 col-xs-6"><img src="/Public/images/az01.png"><h3>第一步:下载浏览器并安装</h3><a href="#" data-toggle="modal" data-target="#home">查看截图</a></div>
+			<div class="col-md-3 col-xs-6"><img src="/Public/images/az02.png"><h3>第二步:初级应用选项</h3><a href="#" data-toggle="modal" data-target="#profile">查看截图</a></div>
+			<div class="col-md-3 col-xs-6"><img src="/Public/images/az03.png"><h3>第三步:高级应用选项</h3><a href="#" data-toggle="modal" data-target="#messages">查看截图</a></div>
+			<div class="col-md-3 col-xs-6"><img src="/Public/images/az04.png"><h3>第四步:安装成功使用</h3><a href="#" data-toggle="modal" data-target="#settings">查看截图</a></div>
+	</div>	
+	<!-- 页尾 -->	
+	<div class="cont_copyrignt ">
+		<div class="container">
+				<div class="cont_copytight_text pull-left"><a target="_blank" href="http://www.miitbeian.gov.cn/">ICP证：京公网安备 11000002000013号</a>  
+				<span>&nbsp;&nbsp;&nbsp;&nbsp;51sgg是一款专门为外贸/IT等提供必备网络服务的插件，所有日志均有详细记录，<b>使用时请务必遵守您当地的法律</b>.</span>
+				</div>
+			<div class="cont_copytight_text pull-right">©2016 51sgg.
+				All rights reserved
+			</div>
+		</div>
+	</div>
+	
+	<!-- 所有modal -->
+	<div class="modal fade" id="home" role="dialog" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">第一步:下载插件并安装</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row v-align-table">
+						<div class="col-md-6 v-align-td">
+							<img src="/Public/images/step1.1.png" style="max-width: 100%;" />
+						</div>
+						<div class="col-md-6 v-align-td">
+							<h2>
+								1:下载浏览器与插件
+							</h2>
+							<p class="teach_p">首先，请下载必要的浏览器套件并解压（如果您喜欢可以选择桌面）</p>
+							<div>
+								<a href="/51sggBrowser.zip" target="_blank"><button class="btn btn-primary">51sgg浏览器套装下载</button></a>
+							</div>
+						</div>
+					</div>
+					<div class="row v-align-table">
+						<div class="col-md-6 v-align-td">
+							<img src="/Public/images/step1.2.png" class="step_img"  style="max-width: 100%;"/>
+						</div>
+						<div class="col-md-6 v-align-td">
+							<h2>2:打开51sgg【扩展程序】</h2>
+							<p class="teach_p">在51sgg浏览器右上角-》设置-》【更多工具】-》【扩展程序】页面</p>
+						</div>
+					</div>
+					<div class="row v-align-table">
+						<div class="col-md-6 v-align-td">
+							<img src="/Public/images/step1.3.png" class="step_img" style="max-width: 100%;" />
+						</div>
+						<div class="col-md-6 v-align-td">
+							<h2>3:插件拖入【扩展程序】界面</h2>
+							<p class="teach_p">把下载的扩展包中: <b class="text-danger">SwitchyOmega.crx 鼠标拖拽</b> 到【扩展程序】页（只能是这个页面）</p>
+							<button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#profile" style="position:absolute;right:0px;top:220px;">继续下一步阅读</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="profile" role="dialog" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">第二步:51sgg - 初级应用选项</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row v-align-table">
+						<div class="col-md-6 v-align-td">
+							<img src="/Public/images/step2.1.png" class="step_img" style="max-width: 100%;" />
+						</div>
+						<div class="col-md-6 v-align-td">
+							<h2>1:选择proxy选项</h2>
+							<p class="teach_p">点击图标选择“选项”点击“proxy”</p>
+						</div>
+					</div>
+					<div class="row v-align-table">
+						<div class="col-md-6 v-align-td">
+							<img src="/Public/images/step2.2.png" class="step_img" style="max-width: 100%;" />
+						</div>
+						<div class="col-md-6 v-align-td">
+							<h2>2:proxy代理参数设置</h2>
+							<p class="teach_p">点击“proxy”填写相应参数 </p>
+							<p class="teach_p">代理协议：HTTPS </p>
+							<p class="teach_p">代理服务器：usvpn.adclick.com.cn </p>
+							<p class="teach_p">代理端口： 443 </p>
+							<p class="teach_p">填写完毕后点击右边的锁图标 </p>
+						</div>
+					</div>
+					<div class="row v-align-table">
+						<div class="col-md-6 v-align-td">
+							<img src="/Public/images/step2.3.png" class="step_img" style="max-width: 100%;" />
+						</div>
+						<div class="col-md-6 v-align-td">
+							<h2>3:输入用户名密码并应用</h2>
+							<p class="teach_p">填写之前注册的账号密码登录之后点击<strong style="color:#40BC4F">保存更改</strong></p>
+							<button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#messages" style="position:absolute;right:0px;top:220px;">继续下一步阅读</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="messages" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">第三步:51sgg - 高级应用选项</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row v-align-table">
+						<div class="col-md-6 v-align-td">
+							<h2>第一步</h2>
+							<img src="/Public/images/step3.1.png" class="step_img" style="max-width: 100%;" />
+						</div>
+						<div class="col-md-6 v-align-td">
+							<h2>第二步</h2>
+							<img src="/Public/images/step3.2.png" class="step_img" style="max-width: 100%;" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="row v-align-table">
+						<div class="col-md-6 v-align-td">
+							<h2>第三步</h2>
+							<img src="/Public/images/step3.3.png" class="step_img" style="max-width: 100%;" />
+						</div>
+						<div class="col-md-6 v-align-td">
+							<h2>第四步</h2>
+							<img src="/Public/images/step3.4.png" class="step_img" style="max-width: 100%;" />
+						</div>
+						<button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#settings" style="position:absolute;right:0px;bottom:0px">继续下一步阅读</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="settings" role="dialog" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">第四步:安装成功</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row v-align-table">
+						<div class="col-md-5 v-align-td">
+							<img src="/Public/images/step4.png" style="max-width: 100%;" class="step_img" style="padding-top: 30px;">
+						</div>
+						<div class="col-md-7 v-align-td">
+							<h2>安装成功,地址栏右侧点击使用</h2>
+							<p class="teach_p">配置成功后，点击插件按钮，在弹出的小页面里，选择“auto switch“。</p>
+							<p class="teach_p">安装成功之后，插件将会随新版本的发布而自动更新，为了将来也能顺利安装，建议你将本页面加入到收藏夹（Ctrl + D)</p>
+							<button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#home" style="position:absolute;right:0px;top:220px;">重新阅读</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<script>
+
+	function refresh(){
+	    window.location.reload();//刷新当前页面.
+	}
+	$(document).ready(function(){
+		$('#wxzfs').click(function(){
+			var wxcode=$('input[name="wxzf"]:checked').val();
+			var out_trade_no="";
+			$.ajax({
+				type: 'post',
+				url: "{:U('Wei/doweipay')}",
+				data: {'data':wxcode},
+				async: true,
+				success: function(data){
+					$('#wxvalue').attr('src','qrcode.php?data='+data.url);
+					$('#wxvalue').removeClass('hidden');
+					out_trade_no=data.out_trade_no;
+				},
+				error: function(data){
+					alert('出现了未知错误');
+				},
+			});
+			
+			
+			setInterval(function(){
+				$.ajax({
+					type:'post',
+					url:"{:U('Wei/verify')}",
+					data:{'out_trade_no':out_trade_no},
+					async:true,
+					success:function(data){
+						if(data.trade_status=='WX_SUCCESS'){
+							//alert('您的充值已经成功');
+							refresh();
+						}
+					},
+				});
+			},3000);
+		});
+		
+		$('#myTab a').click(function(){
+			var currtab=$(this).attr('id');
+			if(currtab=='zfbtab'){
+				$('#wxvalue').addClass('hidden');
+			}
+		});
+		
+		$("input[name=wxzf]").click(function(){
+			var wxcode=$('input[name="wxzf"]:checked').val();
+			var out_trade_no="";
+			$.ajax({
+				type: 'post',
+				url: "{:U('Wei/doweipay')}",
+				data: {'data':wxcode},
+				async: true,
+				success: function(data){
+					$('#wxvalue').attr('src','qrcode.php?data='+data.url);
+					$('#wxvalue').removeClass('hidden');
+					out_trade_no=data.out_trade_no;
+				},
+				error: function(data){
+					alert('出现了未知错误');
+				},
+			});
+		});
+	});
+	
+</script>		
+</block>

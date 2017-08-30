@@ -1,0 +1,484 @@
+<extend name="Base/common"/>
+
+<block name="body">
+    <style>
+    .hidden{display:none}
+    .txtMarquee-left{float:left; height:44px;}
+    .txtMarquee-left *{margin:0; padding:0; list-style:none; font-size:12px;}
+    .txtMarquee-left a{ text-decoration:none; color:#333;  }
+    .txtMarquee-left a:hover{ color:#1974A1;  }
+    .txtMarquee-left{ position:relative;}
+    .txtMarquee-left .bd{ padding:10px 10px 10px 0; }
+    .txtMarquee-left .bd ul{ overflow:hidden; zoom:1; }
+    .txtMarquee-left .bd ul li{ margin-right:20px;  float:left; height:24px; line-height:24px;  text-align:left; _display:inline; width:auto !important;  }
+    .txtMarquee-left .bd ul li span{ color:#999;  }
+    .carousel-indicators li{border-color: #6fa7ce;}
+    
+    #b03{position: relative;}
+    #b03 ul,ol{padding-left: 0;}
+    #b03 ul li{float: left;}
+    #b03 .dots { position: absolute; left: 0; right: 0; bottom: 20px; text-align:center;}
+    #b03 .dots li 
+    { 
+        display: inline-block; 
+        width: 10px; 
+        height: 10px; 
+        margin: 0 4px; 
+        text-indent: -999em; 
+        border: 2px solid #6fa7ce; 
+        border-radius: 6px; 
+        cursor: pointer; 
+        opacity: .4; 
+        -webkit-transition: background .5s, opacity .5s; 
+        -moz-transition: background .5s, opacity .5s; 
+        transition: background .5s, opacity .5s;
+    }
+    #b03 .dots li.active 
+    {
+        background: #fff;
+        opacity: 1;
+    }
+    #b03 .dots li img{width: 100%;}
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/home.css"/>
+    <script src="__JS__/build/mediaelement-and-player.min.js"></script>
+    <script src="__JS__/build/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="__JS__/build/unslider.min.js"></script>
+        <a  style="position:fixed;top: 50%;right: 0px;z-index:99;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3343237588&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2145822969:53" alt="有事情联系我" title="有事情联系我"/></a>
+        <!-- 公告 -->
+        <div id="notice" class="clearfix" style="margin-top:-20px;">
+            <i style="float:left;width:22px;margin:9px 10px 0 0;"><img src="Public/images/horn.png"></i>
+            <div class="txtMarquee-left">
+                <div class="bd">
+                    <div style="overflow:hidden; position:relative; width:434px">
+                        <ul id="notice-list" class="infoList">
+                            <!-- <li><a href="{:U('Home/index/chongzhi#notice')}" target="_blank">中国打破了世界软件巨头规则</a><span>[11-11]</span></li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="float:right;margin-top:12px;">
+              <a href="{:U('Home/index/chongzhi#notice')}" style="color:#e54048;">更多</a>
+            </div>
+        </div>
+        <!-- 介绍 -->
+        <div>
+        <div id="top">
+            <!-- <div class="top c" style="position:relative;">
+                <a class="download" href="http://vip.51sgg.cc/51sggBrowser.7z" target="_blank" title="立即下载51sgg加速器" ></a>
+            </div> -->
+            
+            <!-- unslider -->
+            <div class="banner" id="b03">
+                <ul>
+                    <li style="position:relative;">
+                      <img src="Public/images/top.jpg" alt="">
+                      <a class="download" href="http://vip.51sgg.cc/51sggBrowser.7z" target="_blank" title="立即下载51sgg加速器" ></a>
+                    </li>
+                    <li><img src="Public/images/top_04.jpg" alt=""></li>
+                </ul>
+            </div>
+            
+            
+        </div>
+        </div>
+        <!-- 产品 -->
+        <div class="product">
+            <div class="product-info">
+            <div class="row">
+            <div class="col-md-5" style="padding-top:60px">
+              <h2>量身定制，只为让您用的更好</h2>
+              <p>为了帮您省钱省心，我们贴心为您量身定制专属套餐，让您花半年的钱用1年的产品。让您可以更好、更无忧的使用我们的产品。</p>
+            </div>
+            <div class="col-md-4  col-md-offset-3"><img src="/Public/images/cp02.png"></div>
+              </div>
+            </div>
+        </div>
+        <div class="product">
+            <div class="product-info">
+            <div class="row">
+            <div class="col-md-4"><img src="/Public/images/cp04.png"></div>
+            <div class="col-md-offset-3 col-md-5 mt40">
+              <h2>体验无障碍极速浏览</h2>
+              <p>国内、美国、台湾、香港、韩国、日本、新加坡、马来西亚、澳大利亚、俄罗斯、越南、加拿大、英国、德国、法国、荷兰、西班牙等世界各国线路任你选择，线路数量达到8000条，与20多个国家数百个机房签订战略合作协议，让您轻松畅游全球。</p>
+            </div>
+            </div>
+            </div>
+        </div>
+        <div class="product">
+            <div class="product-info">
+            <div class="row">
+            <div class="col-md-5" style="padding-top:60px">
+              <h2>世界那么大，我都能看看</h2>
+              <p>为您打造的外贸浏览器拥有高品质的服务体验，让您在中国你就能看到全世界的风景，让您的本地网络变得无所不能，从此访问全世界的网页，再也不慢 在国外也可以连接中国服务器,欣赏国内电影、玩游戏等,优酷、土豆、爱奇艺、随意访问。</p>
+            </div>
+            <div class="col-md-4  col-md-offset-3"><img src="/Public/images/cp03.png"></div>
+              </div>
+            </div>
+        </div>
+        <div class="product">
+            <div class="product-info">
+              <div class="row">
+                <div class="col-md-4"><img src="/Public/images/img4.png"></div>
+                <div class="col-md-5 col-md-offset-3" style="padding-top:60px">
+                  <h2>外贸浏览器，为您定制</h2>
+                  <p>专业的积累和沉淀，我们贴心为你量身定制专属套餐，帮你省钱省心。四重金牌服务，助你充值无忧。美好的用户体验，从外贸浏览器加速浏览开始。</p>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        <div class="choose_title">套餐类型</div>
+        <div class="row">
+        <div class="col-md-4">
+             <div class="tcfl">
+             <div class="col-md-6" style="background-color:#4395E7;height:100%">
+                 <h3 class="tcfll">包月套餐</h3>
+                 <div style="position: absolute;top:120px;left:30px">
+                     <div>服务续费时间: 一个月</div>
+                    <div class="yuanjia">原价: <s>30元</s></div>
+                </div>
+             </div>
+             <div class="col-md-6">
+                 <h3 style="font-size:30px; font-weight:bold;color:#4395E7;position: absolute;top:30px;left:30px">30元/月</h3>
+                 <div class="ljcz">
+                    <a title="充值" href="{:U('Home/index/chongzhi')}">
+                    </i>立即充值</a>
+                </div>
+             </div>
+             </div>
+        </div>
+        <div class="col-md-4">
+             <div class="tcfl">
+             <div class="col-md-6" style="background-color:#f0ad4e;height:100%">
+                 <h3 class="tcfll">季度套餐</h3>
+                 <div style="position: absolute;top:120px;left:30px">
+                     <div>服务续费时间: 一季</div>
+                    <div class="yuanjia">原价: <s>90元</s></div>
+                </div>
+             </div>
+             <div class="col-md-6">
+                 <h3 style="font-size:30px; font-weight:bold;color:#f0ad4e;position: absolute;top:30px;left:10px">72元/一季</h3>
+                 <div class="ljcz">
+                    <a title="充值" href="{:U('Home/index/chongzhi')}">
+                    </i>立即充值</a>
+                </div>
+             </div>
+             </div>
+        </div>
+        <div class="col-md-4">
+             <div class="tcfl">
+             <div class="col-md-6" style="background-color:rgba(251,77,43,1);height:100%">
+                 <h3 class="tcfll">包年套餐</h3>
+                 <div style="position: absolute;top:120px;left:30px">
+                     <div>服务续费时间: 一年</div>
+                    <div class="yuanjia">原价: <s>360元</s></div>
+                </div>
+             </div>
+             <div class="col-md-6">
+                 <h3 style="font-size:30px; font-weight:bold;color:rgba(251,77,43,1);;position: absolute;top:30px;left:30px">180元/年</h3>
+                 <div class="ljcz">
+                    <a title="充值" href="{:U('Home/index/chongzhi')}">
+                    </i>立即充值</a>
+                </div>
+             </div>
+             </div>
+        </div>
+    </div>
+    <!-- 安装视频 -->
+    <!-- 
+    <div class="choose_title">使用教程</div>
+    <div class="row" style="text-align:center">
+        <div class="col-md-12 col-xs-12">
+        <video width="960" height="540" src="studio.mp4" type="video/mp4" 
+        id="player1" poster="studio.jpg" 
+        controls="controls" preload="none"></video>
+        </div>
+    </div>
+     -->
+    <!-- 安装说明 -->
+    <!-- 
+    <a name="#instructions"></a>
+    <div class="choose_title">安装说明</div>
+    <p style="text-align:center;margin-top:-15px;font-size:14px"> 请按照以下步骤依次安装 </p>
+    <div class="row" style="text-align:center">
+            <div class="col-md-3 col-xs-6"><img src="/Public/images/az01.png"><h3>第一步:下载浏览器并安装</h3><a href="#" data-toggle="modal" data-target="#home">查看截图</a></div>
+            <div class="col-md-3 col-xs-6"><img src="/Public/images/az02.png"><h3>第二步:初级应用选项</h3><a href="#" data-toggle="modal" data-target="#profile">查看截图</a></div>
+            <div class="col-md-3 col-xs-6"><img src="/Public/images/az03.png"><h3>第三步:高级应用选项</h3><a href="#" data-toggle="modal" data-target="#messages">查看截图</a></div>
+            <div class="col-md-3 col-xs-6"><img src="/Public/images/az04.png"><h3>第四步:安装成功使用</h3><a href="#" data-toggle="modal" data-target="#settings">查看截图</a></div>
+    </div>
+    -->
+    <!-- 页尾 --> 
+    <div class="cont_copyrignt ">
+        <div class="container">
+                <div class="cont_copytight_text pull-left"><a target="_blank" href="http://www.miitbeian.gov.cn/">ICP证：沪ICP备17002025号-1</a>  
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;外贸浏览器是一款专门为外贸/IT等提供必备网络服务的浏览器，<b>使用时请务必遵守您当地的法律</b>.</span>
+                </div>
+            <div class="cont_copytight_text pull-right">©2017 Copyright.
+                All rights reserved
+            </div>
+        </div>
+    </div>
+    
+    <!-- 所有modal -->
+    <div class="modal fade" id="home" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">第一步:下载插件并安装</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row v-align-table">
+                        <div class="col-md-6 v-align-td">
+                            <img src="/Public/images/step1.1.png" style="max-width: 100%;" />
+                        </div>
+                        <div class="col-md-6 v-align-td">
+                            <h2>
+                                1:下载浏览器与插件
+                            </h2>
+                            <p class="teach_p">首先，请下载必要的浏览器套件并解压（如果您喜欢可以选择桌面）</p>
+                            <div>
+                                <a href="/OCeanBrowser.zip" target="_blank"><button class="btn btn-primary">外贸浏览器套装下载</button></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row v-align-table">
+                        <div class="col-md-6 v-align-td">
+                            <img src="/Public/images/step1.2.png" class="step_img"  style="max-width: 100%;"/>
+                        </div>
+                        <div class="col-md-6 v-align-td">
+                            <h2>2:打开外贸浏览器【扩展程序】</h2>
+                            <p class="teach_p">在外贸浏览器右上角-》设置-》【更多工具】-》【扩展程序】页面</p>
+                        </div>
+                    </div>
+                    <div class="row v-align-table">
+                        <div class="col-md-6 v-align-td">
+                            <img src="/Public/images/step1.3.png" class="step_img" style="max-width: 100%;" />
+                        </div>
+                        <div class="col-md-6 v-align-td">
+                            <h2>3:插件拖入【扩展程序】界面</h2>
+                            <p class="teach_p">把下载的扩展包中: <b class="text-danger">SwitchyOmega.crx 鼠标拖拽</b> 到【扩展程序】页（只能是这个页面）</p>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#profile" style="position:absolute;right:0px;bottom:0px;">继续下一步阅读</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="profile" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">第二步:外贸浏览器 - 初级应用选项</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row v-align-table">
+                        <div class="col-md-6 v-align-td">
+                            <img src="/Public/images/step2.1.png" class="step_img" style="max-width: 100%;" />
+                        </div>
+                        <div class="col-md-6 v-align-td">
+                            <h2>1:选择proxy选项</h2>
+                            <p class="teach_p">点击图标选择“选项”点击“proxy”</p>
+                        </div>
+                    </div>
+                    <div class="row v-align-table">
+                        <div class="col-md-6 v-align-td">
+                            <img src="/Public/images/step2.2.png" class="step_img" style="max-width: 100%;" />
+                        </div>
+                        <div class="col-md-6 v-align-td">
+                            <h2>2:proxy代理参数设置</h2>
+                            <p class="teach_p">点击“proxy”填写相应参数 </p>
+                            <p class="teach_p">代理协议：HTTPS </p>
+                            <p class="teach_p">代理服务器：ggvpn.adclick.com.cn </p>
+                            <p class="teach_p">代理端口： 443 </p>
+                            <p class="teach_p">填写完毕后点击右边的锁图标 </p>
+                        </div>
+                    </div>
+                    <div class="row v-align-table">
+                        <div class="col-md-6 v-align-td">
+                            <img src="/Public/images/step2.3.png" class="step_img" style="max-width: 100%;" />
+                        </div>
+                        <div class="col-md-6 v-align-td">
+                            <h2>3:输入用户名密码并应用</h2>
+                            <p class="teach_p">填写之前注册的账号密码登录之后点击<strong style="color:#40BC4F">保存更改</strong></p>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#messages" style="position:absolute;right:0px;bottom:0px;">继续下一步阅读</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="messages" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">第三步:外贸浏览器 - 高级应用选项</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row v-align-table">
+                        <div class="col-md-6 v-align-td">
+                            <h2>第一步</h2>
+                            <img src="/Public/images/step3.1.png" class="step_img" style="max-width: 100%;" />
+                        </div>
+                        <div class="col-md-6 v-align-td">
+                            <h2>第二步</h2>
+                            <img src="/Public/images/step3.2.png" class="step_img" style="max-width: 100%;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row v-align-table">
+                        <div class="col-md-6 v-align-td">
+                            <h2>第三步</h2>
+                            <img src="/Public/images/step3.3.png" class="step_img" style="max-width: 100%;" />
+                        </div>
+                        <div class="col-md-6 v-align-td">
+                            <h2>第四步</h2>
+                            <img src="/Public/images/step3.4.png" class="step_img" style="max-width: 100%;" />
+                            <button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#settings" style="position:absolute;right:0px;bottom:0px">继续下一步阅读</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="settings" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">第四步:安装成功</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row v-align-table">
+                        <div class="col-md-5 v-align-td">
+                            <img src="/Public/images/step4.png" style="max-width: 100%;" class="step_img" style="padding-top: 30px;">
+                        </div>
+                        <div class="col-md-7 v-align-td">
+                            <h2>安装成功,地址栏右侧点击使用</h2>
+                            <p class="teach_p">配置成功后，点击插件按钮，在弹出的小页面里，选择“auto switch“。</p>
+                            <p class="teach_p">安装成功之后，插件将会随新版本的发布而自动更新，为了将来也能顺利安装，建议你将本页面加入到收藏夹（Ctrl + D)</p>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#home" style="position:absolute;right:0px;bottom:0px">重新阅读</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <div style="position:fixed;left:0;bottom:0;">
+      <img src="/Public/images/2.gif" alt="">
+    </div> -->
+<script>
+    //jQuery(".txtMarquee-left").slide( { mainCell:".bd ul",autoPlay:true,effect:"leftMarquee",vis:2,interTime:50,opp:false,mouseOverStop:true  });
+    
+    $(function(){
+        $('#b03').unslider({
+            dots: true
+        });
+        var data = {
+            index: 0,
+            count: 5,
+        };
+        $.ajax({
+            type: 'post',
+            url: "{:U('Notice/getnotice')}",
+            data: {'data':data},
+            async: true,
+            success: function(data){
+                console.log(data.data);
+                initNoticeList(data.data);
+            },
+            error: function(data){
+                alert('出现了未知错误:'+data);
+            },
+        });
+    
+        function initNoticeList(arr){
+            var list = $("#notice-list");
+            list.html("");
+            for(var i = 0; i < arr.length; i++){
+                var item = arr[i];
+                var li = $("<li><a href=\"{:U('Home/index/chongzhi#notice')}\" target='_blank'>" + item.title + "</a><span>[" + item.create_time + "]</span></li>");
+                list.append(li);
+            }
+            jQuery(".txtMarquee-left").slide( { mainCell:".bd ul",autoPlay:true,effect:"leftMarquee",vis:2,interTime:50,opp:false,mouseOverStop:true  });
+        }
+    });
+
+    function refresh(){
+        window.location.reload();//刷新当前页面.
+    }
+    $(document).ready(function(){
+        $('#wxzfs').click(function(){
+            var wxcode=$('input[name="wxzf"]:checked').val();
+            var out_trade_no="";
+            $.ajax({
+                type: 'post',
+                url: "{:U('Wei/doweipay')}",
+                data: {'data':wxcode},
+                async: true,
+                success: function(data){
+                    $('#wxvalue').attr('src','qrcode.php?data='+data.url);
+                    $('#wxvalue').removeClass('hidden');
+                    out_trade_no=data.out_trade_no;
+                },
+                error: function(data){
+                    alert('出现了未知错误');
+                },
+            });
+            
+            
+            setInterval(function(){
+                $.ajax({
+                    type:'post',
+                    url:"{:U('Wei/verify')}",
+                    data:{'out_trade_no':out_trade_no},
+                    async:true,
+                    success:function(data){
+                        if(data.trade_status=='WX_SUCCESS'){
+                            //alert('您的充值已经成功');
+                            refresh();
+                        }
+                    },
+                });
+            },5000);
+        });
+        
+        $('#myTab a').click(function(){
+            var currtab=$(this).attr('id');
+            if(currtab=='zfbtab'){
+                $('#wxvalue').addClass('hidden');
+            }
+        });
+        
+        $("input[name=wxzf]").click(function(){
+            var wxcode=$('input[name="wxzf"]:checked').val();
+            var out_trade_no="";
+            $.ajax({
+                type: 'post',
+                url: "{:U('Wei/doweipay')}",
+                data: {'data':wxcode},
+                async: true,
+                success: function(data){
+                    $('#wxvalue').attr('src','qrcode.php?data='+data.url);
+                    $('#wxvalue').removeClass('hidden');
+                    out_trade_no=data.out_trade_no;
+                },
+                error: function(data){
+                    alert('出现了未知错误,请联系管理员');
+                },
+            });
+        });
+    });
+    
+</script>
+</block>

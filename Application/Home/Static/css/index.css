@@ -1,0 +1,292 @@
+.hidden{display:none}
+.txtMarquee-left{float:left; height:44px;}
+.txtMarquee-left *{margin:0; padding:0; list-style:none; font-size:12px;}
+.txtMarquee-left a{ text-decoration:none; color:#333;  }
+.txtMarquee-left a:hover{ color:#1974A1;  }
+.txtMarquee-left{ position:relative;}
+.txtMarquee-left .bd{ padding:10px 10px 10px 0; }
+.txtMarquee-left .bd ul{ overflow:hidden; zoom:1; }
+.txtMarquee-left .bd ul li{ margin-right:20px;  float:left; height:24px; line-height:24px;  text-align:left; _display:inline; width:auto !important;  }
+.txtMarquee-left .bd ul li span{ color:#999;  }
+.carousel-indicators li{border-color: #6fa7ce;}
+
+#b03{position: relative;}
+#b03 ul,ol{padding-left: 0;}
+#b03 ul li{float: left;}
+#b03 .dots { position: absolute; left: 0; right: 0; bottom: 20px; text-align:center;}
+#b03 .dots li {display: inline-block;width: 10px;height: 10px;margin: 0 4px;text-indent: -999em;border: 2px solid #6fa7ce;border-radius: 6px;
+            cursor: pointer;opacity: .4;-webkit-transition: background .5s, opacity .5s;-moz-transition: background .5s, opacity .5s;transition: background .5s, opacity .5s;}
+#b03 .dots li.active{background: #fff;opacity: 1;}
+#b03 .dots li img{width: 100%;}
+    
+ul{
+  list-style: none;
+  display: block;
+}
+.index-item{
+  width: 100%;
+  padding-top: 74px;
+  padding-bottom: 68px;
+}
+.index-title{
+  text-align: center;
+  font-size: 24px;
+}
+.index-info{
+  text-align: center;
+  margin-top: 12px;
+  font-size: 16px;
+  color: #5f6367;
+}
+.y-wrap{
+  min-width: 1000px;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 563px;
+}
+.y-wrap .card-area,
+.y-wrap .price-area{
+  padding-left: 0;
+  width: 1160px;
+  margin: 82px auto 0;
+}
+.y-wrap .card-area .card-item{
+  width: 22%;
+  height: 548px;
+  float: left;
+  position: relative;
+  z-index: 10;
+  transition: all .3s cubic-bezier(.4,0,.2,1),z-index 0s .12s;
+  border: 1px solid #dbdbdd;
+  margin-left: -1px;
+}
+    
+.y-wrap .card-area .card-item.active{
+  width: 34%;
+  z-index: 100;
+  border: 1px solid #00c1de;
+  box-shadow: 0 0 20px rgba(0,198,226,.5);
+  height: 563px;
+}
+    
+.y-wrap .card-area .card-item .card-main{
+  transition: all .3s cubic-bezier(.4,0,.2,1),z-index 0s .12s;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: #fff;
+}
+    
+.title-even {
+  background-color: #ebebec;
+}
+    
+.title-odd {
+  background-color: #e5e6e6;
+}
+    
+.y-wrap .card-area .card-item .card-main .card-title{
+  transition: all .3s cubic-bezier(.4,0,.2,1),z-index 0s .12s;
+  height: 170px;
+  line-height: 26px;
+  font-size: 14px;
+  top: 0;
+  left: 0;
+  right: -1px;
+  position: absolute;
+  z-index: 1;
+}
+    
+.y-wrap .card-area .card-item.active .card-main .card-title{
+  left: -1px;
+  height: 185px;
+  top: -15px;
+ }
+    
+.y-wrap .card-area .card-item .card-main .card-title.title-first{
+  transition: all .12s cubic-bezier(.4,0,.2,1) .18s;
+  z-index: 3;
+  opacity: 1;
+}
+    
+.y-wrap .card-area .card-item .card-main .card-title.title-second{
+  transition: all .12s cubic-bezier(.4,0,.2,1) 0s;
+  z-index: 2;
+  opacity: 0;
+}
+
+.y-wrap .card-area .card-item.active .card-main .card-title.title-first{
+  transition: all .12s cubic-bezier(.4,0,.2,1) 0s;
+  z-index: 2;
+  opacity: 0;
+}
+    
+.y-wrap .card-area .card-item.active .card-main .card-title.title-second{
+  transition: all .12s cubic-bezier(.4,0,.2,1) .18s;
+  z-index: 3;
+  opacity: 1;
+}
+    
+
+.y-wrap .card-area .card-item .card-main .card-content{
+  height: 376px;
+  position: absolute;
+  top: 170px;
+  left: 0;
+  right: -1px;
+  width: 100%;
+  line-height: 2;
+}
+    
+.y-wrap .card-area .card-item .card-main .card-content.content-first{
+  transition: all .12s cubic-bezier(.4,0,.2,1) .18s;
+  z-index: 3;
+  opacity: 1;
+  padding-top: 80px;
+}
+
+.y-wrap .card-area .card-item .card-main .card-content.content-second{
+  max-width: 350px;
+  left: 25px;
+  font-size: 14px;
+  color: #a9b0b4;
+  text-align: left;
+  padding-top: 26px;
+  transition: all .12s cubic-bezier(.4,0,.2,1) 0s;
+  z-index: 2;
+  opacity: 0;
+}
+    
+.y-wrap .card-area .card-item.active .card-main .card-content.content-first{
+  transition: all .12s cubic-bezier(.4,0,.2,1) 0s;
+  z-index: 2;
+  opacity: 0;
+}
+
+.y-wrap .card-area .card-item.active .card-main .card-content.content-second{
+  transition: all .12s cubic-bezier(.4,0,.2,1) .18s;
+  z-index: 3;
+  opacity: 1;
+}
+
+.price-area .price-item{
+  display: block;
+  float: left;
+  width: 261px;
+  border: 2px solid #fff;
+  height: 500px;
+  margin-right: 38px;
+  cursor: pointer;
+}
+
+.price-area .price-item:last-child{
+  margin-right: 0;
+}
+
+.price-area .price-item .price-header,.price-body{
+  text-align: center;
+}
+.price-area .price-item .price-header{
+  border-bottom: 2px solid #fff;
+  height: 68px;
+  padding: 20px 0;
+}
+
+.price-area .price-item .price-header h1{
+  margin: 0;
+  font-weight: 700;
+}
+
+.price-area .price-item.active .price-header{
+  background-color: #00c1de;
+  color: #fff;
+}
+
+.price-area .price-item .price-body{
+  padding-top:30px;
+}
+
+.price-area .price-item .price-body p{
+  font-size: 18px;
+}
+
+.price-area .price-item .price-body h1{
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.price-area .price-item.active .price-body h1{
+  color: #00c1de;
+}
+
+.price-area .price-item .price-body a{
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px 26px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  color: #444;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.price-area .price-item.active .price-body a{
+  color: #00c1de;
+  border: 1px solid #00c1de;
+}
+
+.home-ad{
+  position:fixed; 
+  bottom:0;
+  left:0;
+  width:100%; 
+  height:100%; 
+  background-color: rgba(56, 47, 107, 0.701961); 
+  z-index:999;
+  
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  
+  display: -o-box;
+  -o-box-orient: horizontal;
+  -o-box-pack: center;
+  -o-box-align: center;
+  
+  display: -ms-box;
+  -ms-box-orient: horizontal;
+  -ms-box-pack: center;
+  -ms-box-align: center;
+  
+  display: box;
+  box-orient: horizontal;
+  box-pack: center;
+  box-align: center;
+}
+
+.ad-wrap{
+  width: 860px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#close-ad{
+  position: absolute;
+  top: 35px;
+  right: 25px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  color: #fff;
+  font-size: 16px;
+  line-height: 30px;
+  text-align: center;
+  text-decoration: none;
+}
